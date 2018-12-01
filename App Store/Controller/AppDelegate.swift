@@ -13,9 +13,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
-
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-		// Override point for customization after application launch.
+		window = UIWindow()
+		window?.makeKeyAndVisible()
+		let layout = UICollectionViewFlowLayout()
+		let viewController = CategoryViewController(collectionViewLayout: layout)
+		window?.rootViewController = UINavigationController(rootViewController: viewController)
 		return true
 	}
 
