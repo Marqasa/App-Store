@@ -80,6 +80,7 @@ class AppDetailsViewController: UICollectionViewController {
 		if indexPath.item == 0 {
 			let screenshotsCell = collectionView.dequeueReusableCell(withReuseIdentifier: screenshotsId, for: indexPath) as! DetailsScreenshotsCollection
 			screenshotsCell.screenshots = app?.screenshots
+			screenshotsCell.delegate = self
 			return screenshotsCell
 		} else if indexPath.item == 1 {
 			let descriptionCell = collectionView.dequeueReusableCell(withReuseIdentifier: descriptionId, for: indexPath) as! DetailsDescriptionCell
@@ -106,5 +107,17 @@ extension AppDetailsViewController: UICollectionViewDelegateFlowLayout {
 		let width = window.frame.width - insets
 		
 		return CGSize(width: width, height: 150)
+	}
+}
+
+extension AppDetailsViewController: ScreenshotsDelegate {
+	func showScreenshots(_ screenshots: [String], _ indexPath: IndexPath) {
+		let layout = UICollectionViewFlowLayout()
+		let vc = ScreenshotsViewController(collectionViewLayout: layout)
+		vc.screenshots = screenshots
+		vc.pageControl.currentPage = indexPath.item
+		vc.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+		vc.collectionView.reloadData()
+		navigationController?.pushViewController(vc, animated: true)
 	}
 }

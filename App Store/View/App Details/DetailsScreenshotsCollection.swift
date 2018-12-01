@@ -8,9 +8,13 @@
 
 import UIKit
 
+protocol ScreenshotsDelegate: class {
+	func showScreenshots(_ screenshots: [String], _ indexPath: IndexPath)
+}
+
 class DetailsScreenshotsCollection: BaseCollectionCell {
 	
-	let height: CGFloat = 150
+	weak var delegate: ScreenshotsDelegate?
 	
 	let screenshotId = "screenshotId"
 	
@@ -38,7 +42,6 @@ class DetailsScreenshotsCollection: BaseCollectionCell {
 			collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
 			collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 			collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//			collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 			collectionView.bottomAnchor.constraint(equalTo: dividerView.topAnchor),
 		
 			dividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: margin),
@@ -86,5 +89,10 @@ class DetailsScreenshotsCollection: BaseCollectionCell {
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 		
 		return margin
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		guard let screenshots = screenshots else { return }
+		delegate?.showScreenshots(screenshots, indexPath)
 	}
 }
